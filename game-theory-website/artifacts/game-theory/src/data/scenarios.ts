@@ -233,7 +233,7 @@ export const SCENARIOS: Scenario[] = [
     players: ['UAW (United Auto Workers)', 'Ford/GM/Stellantis'],
     accentColor: '#1a3a6e',
     badgeColors: {
-      'UAW': { bg: '#1a3a6e', text: '#ffffff' },
+      'UAW (United Auto Workers)': { bg: '#1a3a6e', text: '#ffffff' },
       'Ford/GM/Stellantis': { bg: '#003475', text: '#ffffff' }
     },
     hook: "Both sides drive toward each other. The first to swerve loses — but both pay if no one does.",
