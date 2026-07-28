@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { ChevronLeft, ArrowDown } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { SCENARIOS } from '@/data/scenarios';
 import { WordmarkBadge } from '@/components/WordmarkBadge';
 import { PayoffMatrix } from '@/components/PayoffMatrix';
@@ -60,12 +60,6 @@ export default function ScenarioPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="relative bg-background text-foreground h-[100dvh] overflow-hidden">
-      {/* Back Button */}
-      <Link href="/" className="fixed top-6 left-6 z-50 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mix-blend-difference group">
-        <ChevronLeft className="group-hover:-translate-x-1 transition-transform" />
-        <span className="font-bold text-sm tracking-widest uppercase">Back to Library</span>
-      </Link>
-
       <ProgressRail 
         currentSection={currentSection} 
         totalSections={5} 
