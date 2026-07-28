@@ -46,6 +46,8 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
     }, 100);
   };
 
+  const hasEnded = crashed || uawSwerve || autoSwerve || (distance < 100 && !playing);
+
   const getStatusText = () => {
     if (crashed) return "CRASH: Strike dragged on. Both sides lost billions.";
     if (uawSwerve && autoSwerve) return "BOTH SWERVED: Early compromise, stable outcome.";
@@ -133,24 +135,27 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         )}
       </div>
 
-      {/* Outcome Banner & Primary Actions (Centered Text & Buttons) */}
+      {/* Outcome Banner & Primary Actions */}
       <div className="bg-card border p-6 rounded-xl w-full max-w-2xl text-center space-y-6">
         <p className="font-serif text-2xl font-bold text-foreground">{getStatusText()}</p>
         
-        <div className="flex justify-center gap-4">
-          {!playing && !crashed && distance === 100 && (
+        <div className="flex justify-center gap-4 flex-wrap">
+          {!playing && distance === 100 && !hasEnded && (
             <button onClick={() => setPlaying(true)} className="px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors">
               Start Collision Course
             </button>
           )}
-          {(crashed || distance < 100) && !playing && (
-            <button onClick={reset} className="px-6 py-2.5 border font-bold rounded-lg hover:bg-muted transition-colors">
-              Reset
-            </button>
-          )}
-          {!playing && distance === 100 && (
+
+          {!playing && distance === 100 && !hasEnded && (
             <button onClick={playRealOutcome} className="px-6 py-2.5 border border-accent text-accent-foreground font-bold rounded-lg hover:bg-accent/10 transition-colors">
               Play Historical Outcome
+            </button>
+          )}
+
+          {/* Reset button shows whenever a simulation run has occurred or finished */}
+          {hasEnded && !playing && (
+            <button onClick={reset} className="px-6 py-2.5 bg-secondary text-secondary-foreground border font-bold rounded-lg hover:bg-secondary/80 transition-colors">
+              Reset Simulation
             </button>
           )}
         </div>
