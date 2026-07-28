@@ -230,7 +230,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: 'uaw-strikes',
     name: 'Brinkmanship',
-    players: ['UAW', 'Ford/GM/Stellantis'],
+    players: ['UAW (United Auto Workers)', 'Ford/GM/Stellantis'],
     accentColor: '#1a3a6e',
     badgeColors: {
       'UAW': { bg: '#1a3a6e', text: '#ffffff' },
