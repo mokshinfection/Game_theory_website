@@ -108,15 +108,22 @@ export default function ScenarioPage({ params }: { params: { id: string } }) {
         </section>
 
         {/* Section 3: PLAY IT */}
-        <section className="snap-section flex flex-col items-center justify-center px-6 sm:px-12 md:px-24">
-          <div className="w-full max-w-5xl">
-             <div className="text-center mb-8">
-               <h2 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: scenario.accentColor }}>Play It</h2>
-               <h3 className="font-serif text-4xl font-bold">Make Your Move</h3>
-             </div>
-             <WidgetDispatcher scenario={scenario} />
-          </div>
-        </section>
+<section className="snap-section flex flex-col items-center justify-between px-6 sm:px-12 md:px-24 pt-14 pb-6 h-[100dvh]">
+  {/* Section Title Header */}
+  <div className="text-center shrink-0">
+    <h2 className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: scenario.accentColor }}>
+      Play It
+    </h2>
+    <h3 className="font-serif text-3xl sm:text-4xl font-bold">
+      Make Your Move
+    </h3>
+  </div>
+
+  {/* Interactive Widget Container */}
+  <div className="w-full max-w-5xl my-auto flex-grow flex items-center justify-center overflow-y-auto">
+    <WidgetDispatcher scenario={scenario} />
+  </div>
+</section>
 
         {/* Section 4: WHAT ACTUALLY HAPPENED */}
         <section className="snap-section flex flex-col items-center justify-center px-6 sm:px-12 md:px-24">
