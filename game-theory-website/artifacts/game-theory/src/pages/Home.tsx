@@ -12,10 +12,21 @@ export default function Home() {
         <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-border bg-card text-sm font-bold tracking-widest uppercase text-muted-foreground">
           An Interactive Explainer
         </div>
-        <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight mb-8">
+        <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight mb-6">
           Game Theory:<br/>
           <span className="text-muted-foreground italic">Real World Rivalries</span>
         </h1>
+
+        {/* Authors / Presented By */}
+        <div className="mt-4 mb-8 flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm md:text-base font-medium text-muted-foreground border-y border-border/50 py-3 max-w-3xl mx-auto">
+          <span className="font-semibold text-foreground">Presented by:</span>
+          <span>Akshay Shibu <span className="opacity-75">(2424205)</span></span>
+          <span className="hidden sm:inline opacity-40">•</span>
+          <span>Disha Dimri <span className="opacity-75">(2424217)</span></span>
+          <span className="hidden sm:inline opacity-40">•</span>
+          <span>Mokshith S <span className="opacity-75">(2424238)</span></span>
+        </div>
+
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
           Five classic corporate showdowns that prove human behavior is painfully predictable. Explore the math behind the madness.
         </p>
