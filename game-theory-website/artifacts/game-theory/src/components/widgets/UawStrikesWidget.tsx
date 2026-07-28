@@ -8,6 +8,7 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
   const [uawSwerve, setUawSwerve] = useState(false);
   const [autoSwerve, setAutoSwerve] = useState(false);
   const [crashed, setCrashed] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -17,6 +18,7 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
           if (prev <= 1) {
             setCrashed(true);
             setPlaying(false);
+            setIsFinished(true);
             return 0;
           }
           return prev - 1;
@@ -26,27 +28,42 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
     return () => clearInterval(interval);
   }, [playing, distance, uawSwerve, autoSwerve]);
 
+  const handleUawSwerve = () => {
+    if (playing && !crashed) {
+      setUawSwerve(true);
+      setPlaying(false);
+      setIsFinished(true); // Triggers Reset button immediately
+    }
+  };
+
+  const handleAutoSwerve = () => {
+    if (playing && !crashed) {
+      setAutoSwerve(true);
+      setPlaying(false);
+      setIsFinished(true); // Triggers Reset button immediately
+    }
+  };
+
   const reset = () => {
     setPlaying(false);
     setDistance(100);
     setUawSwerve(false);
     setAutoSwerve(false);
     setCrashed(false);
+    setIsFinished(false);
   };
 
   const playRealOutcome = () => {
     reset();
     setTimeout(() => {
       setPlaying(true);
-      // Real outcome: automakers swerve at the very end
       setTimeout(() => {
         setAutoSwerve(true);
         setPlaying(false);
-      }, 4000); // at distance ~20
+        setIsFinished(true);
+      }, 4000);
     }, 100);
   };
-
-  const hasEnded = crashed || uawSwerve || autoSwerve || (distance < 100 && !playing);
 
   const getStatusText = () => {
     if (crashed) return "CRASH: Strike dragged on. Both sides lost billions.";
@@ -60,7 +77,7 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
   return (
     <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-center space-y-8">
       
-      {/* How to Play Instruction Box (Left Aligned) */}
+      {/* How to Play Instruction Box */}
       <div className="w-full max-w-md p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left self-start">
         <Info size={20} className="text-primary shrink-0 mt-0.5" />
         <div>
@@ -70,10 +87,10 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         </div>
       </div>
 
-      {/* Control Buttons & Loss Tracker (Centered Container) */}
+      {/* Control Buttons & Loss Tracker */}
       <div className="flex gap-4 w-full justify-between max-w-2xl items-center">
         <button 
-          onClick={() => { if(playing && !crashed) setUawSwerve(true) }}
+          onClick={handleUawSwerve}
           disabled={!playing || uawSwerve || crashed}
           className="px-6 py-3 font-bold rounded-lg bg-blue-900 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-800 transition-colors"
         >
@@ -88,7 +105,7 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         </div>
 
         <button 
-          onClick={() => { if(playing && !crashed) setAutoSwerve(true) }}
+          onClick={handleAutoSwerve}
           disabled={!playing || autoSwerve || crashed}
           className="px-6 py-3 font-bold rounded-lg bg-zinc-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-600 transition-colors"
         >
@@ -139,25 +156,31 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
       <div className="bg-card border p-6 rounded-xl w-full max-w-2xl text-center space-y-6">
         <p className="font-serif text-2xl font-bold text-foreground">{getStatusText()}</p>
         
-        <div className="flex justify-center gap-4 flex-wrap">
-          {!playing && distance === 100 && !hasEnded && (
-            <button onClick={() => setPlaying(true)} className="px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors">
-              Start Collision Course
-            </button>
-          )}
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex justify-center gap-4 flex-wrap items-center">
+            {!playing && !isFinished && (
+              <>
+                <button onClick={() => setPlaying(true)} className="px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors">
+                  Start Collision Course
+                </button>
+                <div className="flex flex-col items-center">
+                  <button onClick={playRealOutcome} className="px-6 py-2.5 border border-accent text-accent-foreground font-bold rounded-lg hover:bg-accent/10 transition-colors">
+                    Play Historical Outcome
+                  </button>
+                  <span className="text-[11px] text-muted-foreground mt-1.5 italic">
+                    (This is what happened in real life)
+                  </span>
+                </div>
+              </>
+            )}
 
-          {!playing && distance === 100 && !hasEnded && (
-            <button onClick={playRealOutcome} className="px-6 py-2.5 border border-accent text-accent-foreground font-bold rounded-lg hover:bg-accent/10 transition-colors">
-              Play Historical Outcome
-            </button>
-          )}
-
-          {/* Reset button shows whenever a simulation run has occurred or finished */}
-          {hasEnded && !playing && (
-            <button onClick={reset} className="px-6 py-2.5 bg-secondary text-secondary-foreground border font-bold rounded-lg hover:bg-secondary/80 transition-colors">
-              Reset Simulation
-            </button>
-          )}
+            {/* Appears after manual swerves, crashes, or automated runs */}
+            {isFinished && (
+              <button onClick={reset} className="px-6 py-2.5 bg-secondary text-secondary-foreground border font-bold rounded-lg hover:bg-secondary/80 transition-colors">
+                Reset Simulation
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
