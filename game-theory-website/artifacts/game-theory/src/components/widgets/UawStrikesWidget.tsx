@@ -56,10 +56,10 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-start space-y-8">
+    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-center space-y-8">
       
-      {/* How to Play Instruction Box */}
-      <div className="w-full max-w-md p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left">
+      {/* How to Play Instruction Box (Left Aligned) */}
+      <div className="w-full max-w-md p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left self-start">
         <Info size={20} className="text-primary shrink-0 mt-0.5" />
         <div>
           <span className="font-bold text-foreground block mb-1">How to Play:</span>
@@ -68,7 +68,7 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         </div>
       </div>
 
-      {/* Control Buttons & Loss Tracker */}
+      {/* Control Buttons & Loss Tracker (Centered Container) */}
       <div className="flex gap-4 w-full justify-between max-w-2xl items-center">
         <button 
           onClick={() => { if(playing && !crashed) setUawSwerve(true) }}
@@ -133,11 +133,11 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         )}
       </div>
 
-      {/* Outcome Banner & Primary Actions */}
-      <div className="bg-card border p-6 rounded-xl w-full max-w-2xl text-left space-y-6">
+      {/* Outcome Banner & Primary Actions (Centered Text & Buttons) */}
+      <div className="bg-card border p-6 rounded-xl w-full max-w-2xl text-center space-y-6">
         <p className="font-serif text-2xl font-bold text-foreground">{getStatusText()}</p>
         
-        <div className="flex justify-start gap-4">
+        <div className="flex justify-center gap-4">
           {!playing && !crashed && distance === 100 && (
             <button onClick={() => setPlaying(true)} className="px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors">
               Start Collision Course
