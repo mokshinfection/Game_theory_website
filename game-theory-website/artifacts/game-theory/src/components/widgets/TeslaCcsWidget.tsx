@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 import { Scenario } from '@/data/scenarios';
-import { Zap, X, Check } from 'lucide-react';
+import { Zap, X, Check, Info } from 'lucide-react';
 
 export function TeslaCcsWidget({ scenario }: { scenario: Scenario }) {
   const [status, setStatus] = useState<'competing' | 'converged'>('competing');
   
   return (
-    <div className="w-full max-w-4xl mx-auto py-12 flex flex-col items-center">
+    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-start space-y-8">
       
-      <div className="flex gap-4 mb-16">
+      {/* How to Play Instruction Box */}
+      <div className="w-full max-w-md p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left">
+        <Info size={20} className="text-primary shrink-0 mt-0.5" />
+        <div>
+          <span className="font-bold text-foreground block mb-1">How to Play:</span>
+          1. Toggle between <strong>Keep Competing</strong> (fragmented charging standards) and <strong>Converge on NACS</strong> (unified standard).<br />
+          2. Observe how standardizing plugs directly impacts overall EV adoption and consumer confidence!
+        </div>
+      </div>
+
+      {/* Action Toggle Buttons */}
+      <div className="flex gap-4">
         <button 
           onClick={() => setStatus('competing')}
           className={`px-6 py-3 font-bold rounded-lg border-2 transition-all ${status === 'competing' ? 'border-amber-500 bg-amber-500/10 text-amber-500' : 'border-border text-muted-foreground'}`}
@@ -23,10 +34,11 @@ export function TeslaCcsWidget({ scenario }: { scenario: Scenario }) {
         </button>
       </div>
 
-      <div className="relative w-full h-64 flex justify-center items-center mb-8">
+      {/* Plug Visualization Area */}
+      <div className="relative w-full h-64 flex justify-center items-center mb-4">
         
         {/* The Car Socket (Center) */}
-        <div className="relative z-10 w-32 h-32 rounded-full border-4 border-dashed border-muted-foreground flex items-center justify-center bg-card">
+        <div className="relative z-10 w-32 h-32 rounded-full border-4 border-dashed border-muted-foreground flex items-center justify-center bg-card shadow-md">
           {status === 'competing' ? (
             <X size={48} className="text-rose-500" />
           ) : (
@@ -60,7 +72,8 @@ export function TeslaCcsWidget({ scenario }: { scenario: Scenario }) {
         </div>
       </div>
 
-      <div className="bg-card border p-8 rounded-2xl w-full max-w-md text-center">
+      {/* Outcome Stat Card */}
+      <div className="bg-card border p-8 rounded-2xl w-full max-w-md text-left">
         <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Total EV Adoption Rate</h4>
         <div className="text-5xl font-mono font-bold tracking-tighter mb-4 transition-colors duration-1000">
           {status === 'competing' ? (
