@@ -25,23 +25,23 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
     setCashBurned(0);
   };
 
-  // customer position offset: shift toward Swiggy (-35px) or Zomato (+35px)
+  // customer position offset: shift toward Swiggy (-40px) or Zomato (+40px)
   let customerPos = 0;
   let statusText = "Market Split 50 / 50";
   
   if (swiggySpend && !zomatoSpend) {
-    customerPos = -35;
+    customerPos = -40;
     statusText = "Shifted to Swiggy";
   } else if (!swiggySpend && zomatoSpend) {
-    customerPos = 35;
+    customerPos = 40;
     statusText = "Shifted to Zomato";
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-start">
+    <div className="w-full max-w-4xl mx-auto py-4 flex flex-col items-start gap-8">
       
-      {/* Instructions Header - Left Aligned */}
-      <div className="w-full max-w-md mb-8 p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left">
+      {/* Instructions Header - Clear of the Arena below */}
+      <div className="w-full max-w-lg p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left z-20">
         <Info size={20} className="text-primary shrink-0 mt-0.5" />
         <div>
           <span className="font-bold text-foreground block mb-1">How to Play:</span>
@@ -49,7 +49,8 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
         </div>
       </div>
 
-      <div className="flex justify-between items-center w-full relative h-56 mb-12">
+      {/* Main Simulation Field with increased vertical height & safety padding */}
+      <div className="flex justify-between items-center w-full relative h-64 my-4">
         
         {/* Swiggy Side */}
         <div className="flex flex-col items-start z-10">
@@ -57,7 +58,7 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
           <div 
             className="w-24 h-24 rounded-full bg-card border-4 flex items-center justify-center mb-4 transition-all duration-500 ease-in-out shadow-md"
             style={{ 
-              borderColor: scenario.badgeColors['Swiggy'].bg,
+              borderColor: scenario.badgeColors['Swiggy']?.bg || '#fc8019',
               transform: `scale(${1 - (swiggySpend && round > 0 ? 0.1 * round : 0)})`,
               opacity: swiggySpend && round > 0 ? 0.8 : 1
             }}
@@ -76,19 +77,19 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
           </div>
         </div>
 
-        {/* Customer Base / Market Share (Center Field) */}
+        {/* Customer Base / Market Share (Centered & Shiftable without collision) */}
         <div 
-          className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out z-0 flex flex-col items-start"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out z-0 flex flex-col items-center"
           style={{ transform: `translate(calc(-50% + ${customerPos}px), -50%)` }}
         >
-          <div className="relative p-4 bg-card rounded-2xl border-2 border-primary/30 shadow-lg flex flex-col items-start text-left">
+          <div className="relative p-4 bg-card rounded-2xl border-2 border-primary/30 shadow-lg flex flex-col items-center text-center min-w-[140px]">
             {/* Multiple Users Icon */}
             <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-2 border border-primary/20">
               <Users size={30} className="text-primary" />
             </div>
 
             {/* Shift Direction Indicator */}
-            <div className="flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded-full bg-muted border text-foreground">
+            <div className="flex items-center justify-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-muted border text-foreground whitespace-nowrap">
               {swiggySpend && !zomatoSpend && <ArrowLeft size={12} className="text-orange-500" />}
               {!swiggySpend && zomatoSpend && <ArrowRight size={12} className="text-red-500" />}
               {swiggySpend === zomatoSpend && <ArrowLeftRight size={12} className="text-muted-foreground" />}
@@ -104,7 +105,7 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
           <div 
             className="w-24 h-24 rounded-full bg-card border-4 flex items-center justify-center mb-4 transition-all duration-500 ease-in-out shadow-md"
             style={{ 
-              borderColor: scenario.badgeColors['Zomato'].bg,
+              borderColor: scenario.badgeColors['Zomato']?.bg || '#e23744',
               transform: `scale(${1 - (zomatoSpend && round > 0 ? 0.1 * round : 0)})`,
               opacity: zomatoSpend && round > 0 ? 0.8 : 1
             }}
@@ -126,7 +127,7 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
       </div>
 
       {/* Control Card - Left Aligned */}
-      <div className="bg-card border rounded-xl p-6 flex flex-col items-start w-full max-w-md text-left">
+      <div className="bg-card border rounded-xl p-6 flex flex-col items-start w-full max-w-md text-left z-10">
         <div className="flex justify-between w-full mb-6">
           <div>
             <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Round</div>
