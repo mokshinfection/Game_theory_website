@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Scenario } from '@/data/scenarios';
-import { AlertOctagon } from 'lucide-react';
+import { AlertOctagon, Info } from 'lucide-react';
 
 export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
   const [playing, setPlaying] = useState(false);
@@ -56,9 +56,20 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-12 flex flex-col items-center">
+    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-start space-y-8">
       
-      <div className="flex gap-4 mb-8 w-full justify-between max-w-2xl">
+      {/* How to Play Instruction Box */}
+      <div className="w-full max-w-md p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left">
+        <Info size={20} className="text-primary shrink-0 mt-0.5" />
+        <div>
+          <span className="font-bold text-foreground block mb-1">How to Play:</span>
+          1. Click <strong>Start Collision Course</strong> to begin the Game of Chicken.<br />
+          2. Click <strong>UAW: Swerve Now</strong> or <strong>Automakers: Swerve Now</strong> mid-drive to blink first, or watch them collide!
+        </div>
+      </div>
+
+      {/* Control Buttons & Loss Tracker */}
+      <div className="flex gap-4 w-full justify-between max-w-2xl items-center">
         <button 
           onClick={() => { if(playing && !crashed) setUawSwerve(true) }}
           disabled={!playing || uawSwerve || crashed}
@@ -66,12 +77,14 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         >
           UAW: Swerve Now
         </button>
+
         <div className="flex flex-col items-center">
           <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Lost Production</span>
           <span className="font-mono text-2xl font-bold text-rose-500">
             ${((100 - distance) * 0.013).toFixed(2)}B
           </span>
         </div>
+
         <button 
           onClick={() => { if(playing && !crashed) setAutoSwerve(true) }}
           disabled={!playing || autoSwerve || crashed}
@@ -81,7 +94,8 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         </button>
       </div>
 
-      <div className="w-full h-48 bg-zinc-900 rounded-xl relative overflow-hidden mb-8 border border-zinc-800 shadow-inner">
+      {/* Collision Track Visualization */}
+      <div className="w-full h-48 bg-zinc-900 rounded-xl relative overflow-hidden border border-zinc-800 shadow-inner">
         {/* Road markings */}
         <div className="absolute top-1/2 -translate-y-1/2 w-full border-t-2 border-dashed border-zinc-600" />
         
@@ -119,22 +133,23 @@ export function UawStrikesWidget({ scenario }: { scenario: Scenario }) {
         )}
       </div>
 
-      <div className="bg-card border p-6 rounded-xl w-full max-w-2xl text-center space-y-6">
-        <p className="font-serif text-2xl font-bold">{getStatusText()}</p>
+      {/* Outcome Banner & Primary Actions */}
+      <div className="bg-card border p-6 rounded-xl w-full max-w-2xl text-left space-y-6">
+        <p className="font-serif text-2xl font-bold text-foreground">{getStatusText()}</p>
         
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-start gap-4">
           {!playing && !crashed && distance === 100 && (
-            <button onClick={() => setPlaying(true)} className="px-6 py-2 bg-primary text-primary-foreground font-bold rounded-lg">
+            <button onClick={() => setPlaying(true)} className="px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors">
               Start Collision Course
             </button>
           )}
           {(crashed || distance < 100) && !playing && (
-            <button onClick={reset} className="px-6 py-2 border font-bold rounded-lg hover:bg-muted">
+            <button onClick={reset} className="px-6 py-2.5 border font-bold rounded-lg hover:bg-muted transition-colors">
               Reset
             </button>
           )}
           {!playing && distance === 100 && (
-            <button onClick={playRealOutcome} className="px-6 py-2 border border-accent text-accent-foreground font-bold rounded-lg hover:bg-accent/10">
+            <button onClick={playRealOutcome} className="px-6 py-2.5 border border-accent text-accent-foreground font-bold rounded-lg hover:bg-accent/10 transition-colors">
               Play Historical Outcome
             </button>
           )}
