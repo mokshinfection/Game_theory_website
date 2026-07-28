@@ -19,7 +19,7 @@ export default function Home() {
 
         {/* Authors / Presented By */}
         <div className="mt-4 mb-8 flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm md:text-base font-medium text-muted-foreground border-y border-border/50 py-3 max-w-3xl mx-auto">
-          <span className="font-semibold text-foreground">Presented by:</span>
+          <span className="font-semibold text-foreground">Created by:</span>
           <span>Akshay Shibu <span className="opacity-75">(2424205)</span></span>
           <span className="hidden sm:inline opacity-40">•</span>
           <span>Disha Dimri <span className="opacity-75">(2424217)</span></span>
