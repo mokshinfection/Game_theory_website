@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Scenario } from '@/data/scenarios';
-import { User, Coins } from 'lucide-react';
+import { User, Coins, Info } from 'lucide-react';
 import { WordmarkBadge } from '../WordmarkBadge';
 
 export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
@@ -31,8 +31,17 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
   else if (!swiggySpend && zomatoSpend) customerPos = 20;
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-12 flex flex-col items-center">
+    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-center">
       
+      {/* Instructions Header */}
+      <div className="w-full max-w-md mb-8 p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground">
+        <Info size={20} className="text-primary shrink-0 mt-0.5" />
+        <div>
+          <span className="font-bold text-foreground block mb-1">How to Play:</span>
+          Select whether <strong>Swiggy</strong> and <strong>Zomato</strong> choose to <strong>Spend</strong> (discount/market) or <strong>Hold</strong> back cash this quarter, then click <strong>Simulate Quarter</strong> to watch the outcome!
+        </div>
+      </div>
+
       <div className="flex justify-between items-center w-full relative h-48 mb-12">
         {/* Swiggy Side */}
         <div className="flex flex-col items-center z-10">
