@@ -7,25 +7,25 @@ export function Navbar() {
   const [location] = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-      {/* Top Gradient Border Line */}
-      <div className="h-1 w-full bg-gradient-to-r from-blue-500 via-amber-500 to-rose-500" />
+    <header className="fixed top-0 left-0 z-50 w-full bg-transparent backdrop-blur-sm transition-all pointer-events-none">
+      {/* Top Thin Gradient Border Line */}
+      <div className="h-0.5 w-full bg-gradient-to-r from-blue-500 via-amber-500 to-rose-500 opacity-80" />
       
-      <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-start gap-6">
+      <div className="max-w-7xl mx-auto px-6 h-12 flex items-center justify-start gap-4 pointer-events-auto">
         {/* Home Link */}
         <Link 
           href="/" 
-          className="flex items-center gap-2 font-serif font-bold text-lg hover:text-primary transition-colors shrink-0"
+          className="flex items-center gap-2 font-serif font-bold text-sm text-foreground/80 hover:text-primary transition-colors shrink-0 bg-background/40 px-2.5 py-1 rounded-md border border-border/30 shadow-xs"
         >
-          <Home size={18} />
+          <Home size={15} />
           <span className="hidden sm:inline">Game Theory</span>
         </Link>
 
         {/* Separator Line */}
-        <div className="h-4 w-[1px] bg-border/60 shrink-0" />
+        <div className="h-3 w-[1px] bg-border/40 shrink-0" />
 
         {/* Left-Aligned Numbered Navigation (1, 2, 3, 4, 5) */}
-        <nav className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
+        <nav className="flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none">
           {SCENARIOS.map((scenario, index) => {
             const isActive = location === `/scenario/${scenario.id}`;
             const scenarioNumber = index + 1;
@@ -35,10 +35,10 @@ export function Navbar() {
                 key={scenario.id}
                 href={`/scenario/${scenario.id}`}
                 title={scenario.name} // Shows scenario title on hover
-                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all flex items-center justify-center shrink-0 border ${
+                className={`w-7 h-7 rounded-md text-xs font-bold transition-all flex items-center justify-center shrink-0 border ${
                   isActive 
-                    ? 'bg-primary text-primary-foreground border-primary shadow-sm scale-105' 
-                    : 'text-muted-foreground border-border/60 hover:text-foreground hover:bg-muted/50'
+                    ? 'bg-primary text-primary-foreground border-primary shadow-xs scale-105' 
+                    : 'bg-background/40 text-muted-foreground border-border/30 hover:text-foreground hover:bg-background/80'
                 }`}
               >
                 {scenarioNumber}
