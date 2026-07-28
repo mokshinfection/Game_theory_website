@@ -38,10 +38,10 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-center">
+    <div className="w-full max-w-4xl mx-auto py-8 flex flex-col items-start">
       
-      {/* Instructions Header */}
-      <div className="w-full max-w-md mb-8 p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground">
+      {/* Instructions Header - Left Aligned */}
+      <div className="w-full max-w-md mb-8 p-4 rounded-xl bg-card border border-border flex items-start gap-3 text-sm text-muted-foreground text-left">
         <Info size={20} className="text-primary shrink-0 mt-0.5" />
         <div>
           <span className="font-bold text-foreground block mb-1">How to Play:</span>
@@ -52,7 +52,7 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
       <div className="flex justify-between items-center w-full relative h-56 mb-12">
         
         {/* Swiggy Side */}
-        <div className="flex flex-col items-center z-10">
+        <div className="flex flex-col items-start z-10">
           <div className="text-xs font-bold uppercase tracking-wider text-orange-500 mb-2">Swiggy Treasury</div>
           <div 
             className="w-24 h-24 rounded-full bg-card border-4 flex items-center justify-center mb-4 transition-all duration-500 ease-in-out shadow-md"
@@ -76,12 +76,12 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
           </div>
         </div>
 
-        {/* Customer Base / Market Share (Center) */}
+        {/* Customer Base / Market Share (Center Field) */}
         <div 
-          className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out z-0 flex flex-col items-center"
+          className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out z-0 flex flex-col items-start"
           style={{ transform: `translate(calc(-50% + ${customerPos}px), -50%)` }}
         >
-          <div className="relative p-4 bg-card rounded-2xl border-2 border-primary/30 shadow-lg flex flex-col items-center">
+          <div className="relative p-4 bg-card rounded-2xl border-2 border-primary/30 shadow-lg flex flex-col items-start text-left">
             {/* Multiple Users Icon */}
             <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-2 border border-primary/20">
               <Users size={30} className="text-primary" />
@@ -99,7 +99,7 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
         </div>
 
         {/* Zomato Side */}
-        <div className="flex flex-col items-center z-10">
+        <div className="flex flex-col items-end z-10">
           <div className="text-xs font-bold uppercase tracking-wider text-red-500 mb-2">Zomato Treasury</div>
           <div 
             className="w-24 h-24 rounded-full bg-card border-4 flex items-center justify-center mb-4 transition-all duration-500 ease-in-out shadow-md"
@@ -125,13 +125,14 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
 
       </div>
 
-      <div className="bg-card border rounded-xl p-6 flex flex-col items-center w-full max-w-md">
+      {/* Control Card - Left Aligned */}
+      <div className="bg-card border rounded-xl p-6 flex flex-col items-start w-full max-w-md text-left">
         <div className="flex justify-between w-full mb-6">
-          <div className="text-center">
+          <div>
             <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Round</div>
             <div className="font-mono text-2xl font-bold">{round} / 3</div>
           </div>
-          <div className="text-center">
+          <div className="text-right">
             <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Cash Burned</div>
             <div className={`font-mono text-2xl font-bold ${cashBurned > 0 ? 'text-rose-500' : 'text-emerald-500'}`}>
               ₹{cashBurned} Cr
@@ -142,18 +143,18 @@ export function SwiggyZomatoWidget({ scenario }: { scenario: Scenario }) {
         {round < 3 ? (
           <button 
             onClick={handleSimulate}
-            className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors"
+            className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors text-center"
           >
             Simulate Quarter
           </button>
         ) : (
-          <div className="w-full text-center space-y-4">
+          <div className="w-full text-left space-y-4">
             <div className="text-amber-500 font-serif font-bold text-xl">
               {swiggySpend && zomatoSpend 
                 ? "Both burned cash. Market share barely moved."
                 : (!swiggySpend && !zomatoSpend ? "Peace! Both saved money." : "One side won, but at what cost?")}
             </div>
-            <button onClick={reset} className="text-sm underline text-muted-foreground">Reset Simulation</button>
+            <button onClick={reset} className="text-sm underline text-muted-foreground block">Reset Simulation</button>
           </div>
         )}
       </div>
